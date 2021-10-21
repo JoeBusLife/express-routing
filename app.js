@@ -10,7 +10,7 @@ app.get('/mean', function mean(req, res, next){
 	let result;
 	try{
 		let nums = req.query.nums;
-		console.log(nums);
+		
 		if (!nums) throw new ExpressError(`nums are required`, 400);
 		let numsArr = nums.split(',');
 
@@ -20,7 +20,6 @@ app.get('/mean', function mean(req, res, next){
 		},0) / numsArr.length;
 
 	} catch (e) {
-		console.log(e.msg)
 		return next(e);
 	}
 
@@ -35,7 +34,7 @@ app.get('/median', function median(req, res, next){
 	let result;
 	try{
 		let nums = req.query.nums;
-		console.log(nums);
+	
 		if (!nums) throw new ExpressError(`nums are required`, 400);
 		let numsArr = nums.split(',');
 
@@ -46,9 +45,8 @@ app.get('/median', function median(req, res, next){
 			return +num;
 		});
 		
-		debugger
 		numsArr.sort();
-		console.log(numsArr)
+		
 		if (numsArr.length % 2 === 1) result = numsArr[(numsArr.length - 1) / 2];
 		else {
 			let midIdx = (numsArr.length - 1) / 2;
@@ -57,7 +55,6 @@ app.get('/median', function median(req, res, next){
 			result = (numsArr[leftMidIdx] + numsArr[rightMidIdx]) / 2;
 		}
 	} catch (e) {
-		console.log(e.msg)
 		return next(e);
 	}
 
@@ -72,7 +69,7 @@ app.get('/mode', function mode(req, res, next){
 	let result;
 	try{
 		let nums = req.query.nums;
-		console.log(nums);
+		
 		if (!nums) throw new ExpressError(`nums are required`, 400);
 		let numsArr = nums.split(',');
 
@@ -97,10 +94,8 @@ app.get('/mode', function mode(req, res, next){
     	}
   	}
 		result = +mostFrequent;
-		console.log(numsArr)
 
 	} catch (e) {
-		console.log(e.msg)
 		return next(e);
 	}
 
@@ -110,33 +105,6 @@ app.get('/mode', function mode(req, res, next){
 		value: result}
 	});
 });
-
-app.get('/', (req, res, next) => {
-	console.log(req.query);
-	res.send('hi');
-	// res.json("stuff!!!")
-});
-
-app.post('/bro', function bro(req, res){
-	res.status(201).send('POst BrO');
-});
-
-app.get('/param/:yo', (req, res) => {
-	res.send(req.params.yo);
-});
-
-function attemptToSaveToDB() {
-  throw "Connection Error!"
-}
-
-app.get('/savetodb', (req, res, next) => {
-  try {
-    attemptToSaveToDB()
-    return res.send("SAVED TO DB!")
-  } catch (e) {
-    return next(new ExpressError("Database Error"))
-  }
-})
 
 
 // If no other route matches, respond with a 404
